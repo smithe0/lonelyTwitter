@@ -8,9 +8,20 @@ import java.util.Date;
 public class Uppity extends Mood {
     public Uppity(){
         super();
+        this.expression = new String("*Smugface*");
     }
 
     public Uppity(Date d){
         super(d);
+    }
+
+    @Override
+    public String getExpression() {
+        return this.expression;
+    }
+
+    @Override
+    public void setExpression(String s) {
+
     }
 }

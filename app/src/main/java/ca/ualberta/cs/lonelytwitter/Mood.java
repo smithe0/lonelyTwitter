@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by egsmith on 9/16/15.
  */
 public abstract class Mood {
+    protected String expression;
     private Date date;
 
     protected Mood() {
@@ -23,4 +24,7 @@ public abstract class Mood {
     public void setDate(Date d) {
         this.date = d;
     }
+
+    public abstract String getExpression();
+    public abstract void setExpression(String s);
 }
