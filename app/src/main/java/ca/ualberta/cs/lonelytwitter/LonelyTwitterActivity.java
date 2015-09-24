@@ -48,10 +48,6 @@ public class LonelyTwitterActivity extends Activity {
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                //String text = bodyText.getText().toString();
-                //bodyText.getText().clear();
-                //tweets.add(new NormalTweet(text));
-
                 tweets.clear();
                 saveInFile();
                 adapter.notifyDataSetChanged();
