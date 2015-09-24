@@ -1,11 +1,13 @@
 package ca.ualberta.cs.lonelytwitter;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,8 +47,9 @@ public class LonelyTwitterActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
-				saveInFile(text, new Date(System.currentTimeMillis()));
-                //loadFromFile();
+                tweets.add(new NormalTweet(text));
+				saveInFile();
+                loadFromFile();
             }
 		});
 	}
@@ -67,7 +70,7 @@ public class LonelyTwitterActivity extends Activity {
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
             //https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html, 2015-09-23
-            Type arraylistType = new TypeToken<ArrayList<Tweet>>() {}.getType();
+            Type arraylistType = new TypeToken<ArrayList<NormalTweet>>() {}.getType();
             tweets = gson.fromJson(in, arraylistType);
 
 		} catch (FileNotFoundException e) {
@@ -75,11 +78,13 @@ public class LonelyTwitterActivity extends Activity {
 		}
 	}
 	
-	private void saveInFile(String text, Date date) {
+	private void saveInFile() {
 		try {
-			FileOutputStream fos = openFileOutput(FILENAME,
-					Context.MODE_APPEND);
-			fos.write(text.getBytes());
+			FileOutputStream fos = openFileOutput(FILENAME,0);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(tweets, out);
+            out.flush();
 			fos.close();
 		} catch (FileNotFoundException e) {
             throw new RuntimeException(e);
