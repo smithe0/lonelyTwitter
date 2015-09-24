@@ -30,6 +30,7 @@ public class LonelyTwitterActivity extends Activity {
 	private EditText bodyText;
 	private ListView oldTweetsList;
 	private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+    private ArrayAdapter<Tweet> adapter;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -42,14 +43,32 @@ public class LonelyTwitterActivity extends Activity {
 		Button saveButton = (Button) findViewById(R.id.save);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
-		saveButton.setOnClickListener(new View.OnClickListener() {
+        Button clearButton = (Button) findViewById(R.id.clear);
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                //String text = bodyText.getText().toString();
+                //bodyText.getText().clear();
+                //tweets.add(new NormalTweet(text));
+
+                tweets.clear();
+                saveInFile();
+                adapter.notifyDataSetChanged();
+            }
+
+        });
+
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
+                bodyText.getText().clear();
                 tweets.add(new NormalTweet(text));
 				saveInFile();
-                loadFromFile();
+                adapter.notifyDataSetChanged();
             }
 		});
 	}
@@ -57,11 +76,12 @@ public class LonelyTwitterActivity extends Activity {
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
-		super.onStart();
+        super.onStart();
 		loadFromFile();
-		ArrayAdapter<Tweet> adapter = new ArrayAdapter<Tweet>(this,
+		adapter = new ArrayAdapter<Tweet>(this,
 				R.layout.list_item, tweets);
 		oldTweetsList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 	}
 
 	private void loadFromFile() {
