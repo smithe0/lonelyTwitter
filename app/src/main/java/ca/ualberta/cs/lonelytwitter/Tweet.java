@@ -24,14 +24,6 @@ public abstract class Tweet extends Object implements Tweetable {
         return text;
     }
 
-    public void setText(String text) throws TweetTooLongException {
-        if (text.length() <= 140) {
-            this.text = text;
-        } else {
-            throw new TweetTooLongException();
-        }
-    }
-
     public Date getDate() {
         return date;
     }
@@ -45,6 +37,33 @@ public abstract class Tweet extends Object implements Tweetable {
     @Override
     public String toString() {
         return date.toString() + " || " + this.text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tweet tweet = (Tweet) o;
+
+        if (!text.equals(tweet.text)) return false;
+        return date.equals(tweet.date);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = text.hashCode();
+        result = 31 * result + date.hashCode();
+        return result;
+    }
+
+    public void setText(String text) throws TweetTooLongException {
+        if (text.length() <= 140) {
+            this.text = text;
+        } else {
+            throw new TweetTooLongException();
+        }
     }
 
 }
