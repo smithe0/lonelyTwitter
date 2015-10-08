@@ -78,9 +78,9 @@ public class LonelyTwitterActivity extends Activity {
 			tweets = gson.fromJson(in, arraylistType);  //model
 
 		} catch (FileNotFoundException e) {
-			tweets = new ArrayList<Tweet>();    //model
+			tweets = new ArrayList<Tweet>();    //view
 		} catch (IOException e) {
-			throw new RuntimeException(e);  //model
+			throw new RuntimeException(e);  //view
 		}
 	}
 	
@@ -94,10 +94,10 @@ public class LonelyTwitterActivity extends Activity {
 			fos.close(); //model
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException(e); //model
+			throw new RuntimeException(e); //view
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException(e); //model
+			throw new RuntimeException(e); //view
 		}
 	}
 }
